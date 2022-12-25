@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "kc-moe"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{include = "kc_moe"}]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.12"
+konlpy = "^0.6.0"
+python-mecab-ko = "^1.2.9"
+dask = {extras = ["dataframe"], version = "^2022.12.1"}
+ipykernel = "^6.19.2"
+fastparquet = "^2022.12.0"
+wikipedia-api = "^0.5.8"
+tensorflow = "^2.11.0"
+tensorflow-io = "^0.29.0"
+seqio = {git = "https://github.com/google/seqio"}
+tensorflow-datasets = "4.7"
+t5x = {git = "https://github.com/google-research/t5x"}
+jax = {version = "^0.4.1", extras = ["tpu"], optional = true}
+
+[[tool.poetry.source]]
+name = "jax"
+url = "https://storage.googleapis.com/jax-releases/libtpu_releases.html"
+default = false
+secondary = false
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

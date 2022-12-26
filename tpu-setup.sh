@@ -12,4 +12,4 @@ curl -sSL https://install.python-poetry.org | python3.10 -
 
 # install requirements
 # --all-extras will install packages only required for running experiments
-poetry install --no-root --all-extras
+~/.local/bin/poetry install --no-root --all-extras

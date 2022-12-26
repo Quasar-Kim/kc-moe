@@ -9,7 +9,7 @@ class TfdsTest(tfds.dataset_builders.TfDataBuilder):
       name='tfds_test',
       version='1.0.0',
       split_datasets={
-        'train': tfio.IODataset.from_parquet('gs://kc-moe/kcbert-cleaned/part.0.parquet', columns=['text'])
+        'train': tfio.IODataset.from_parquet('gs://kc-moe/dataset/parquet/kcbert-cleaned/part.0.parquet', columns=['text'])
       },
       features=tfds.features.FeaturesDict({
         'text': tfds.features.Text()

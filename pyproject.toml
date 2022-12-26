@@ -17,9 +17,9 @@ wikipedia-api = "^0.5.8"
 tensorflow = "^2.11.0"
 tensorflow-io = "^0.29.0"
 seqio = {git = "https://github.com/google/seqio"}
-tensorflow-datasets = "4.7"
 t5x = {git = "https://github.com/google-research/t5x"}
 jax = {version = "^0.4.1", extras = ["tpu"], optional = true}
+tensorflow-datasets = "4.7"
 
 [[tool.poetry.source]]
 name = "jax"

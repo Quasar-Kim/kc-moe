@@ -15,10 +15,16 @@ class KcbertCleaned(tfds.dataset_builders.TfDataBuilder):
         )
 
     def _get_splits(self):
-        ds = tf.data.Dataset.list_files('gs://kc-moe/dataset/parquet/kcbert-cleaned')
+        ds_option = tf.data.Options()
+        ds_option.experimental_deterministic = False
+
+        ds = tf.data.Dataset.list_files('gs://kc-moe/dataset/parquet/kcbert-cleaned/*.parquet', shuffle=False)
+        ds = ds.with_options(ds_option)
         ds = ds.interleave(
-            lambda file: tfio.IODataset.from_parquet(file, columns=['text']),
-            cycle_length=50, # arbitary
+            lambda file: tfio.IODataset.from_parquet(file, columns={
+                'text': tf.TensorSpec(shape=(), dtype=tf.string)
+            }),
+            cycle_length=5,
             num_parallel_calls=tf.data.AUTOTUNE
         )
         return {

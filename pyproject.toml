@@ -10,7 +10,7 @@ packages = [{include = "kc_moe"}]
 python = ">=3.10,<3.12"
 konlpy = "^0.6.0"
 python-mecab-ko = "^1.2.9"
-dask = {extras = ["dataframe"], version = "^2022.12.1"}
+dask = {extras = ["distributed"], version = "^2022.12.1"}
 ipykernel = "^6.19.2"
 fastparquet = "^2022.12.0"
 wikipedia-api = "^0.5.8"
@@ -18,8 +18,11 @@ tensorflow = "^2.11.0"
 tensorflow-io = "^0.29.0"
 seqio = {git = "https://github.com/google/seqio"}
 t5x = {git = "https://github.com/google-research/t5x"}
+t5 = {git = "https://github.com/google-research/text-to-text-transfer-transformer"}
 jax = {version = "^0.4.1", extras = ["tpu"], optional = true}
 tensorflow-datasets = "4.7"
+gcsfs = "^2022.11.0"
+pyarrow = "^10.0.1"
 
 [[tool.poetry.source]]
 name = "jax"

@@ -23,6 +23,7 @@ jax = {version = "^0.4.1", extras = ["tpu"], optional = true}
 tensorflow-datasets = "4.7"
 gcsfs = "^2022.11.0"
 pyarrow = "^10.0.1"
+gin-config = "^0.5.0"
 
 [[tool.poetry.source]]
 name = "jax"

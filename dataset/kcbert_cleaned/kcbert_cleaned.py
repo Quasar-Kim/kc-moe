@@ -22,7 +22,7 @@ class KcbertCleaned(GeneratorBasedBuilder):
 
     def _generate_examples(self):
         df = dd.read_parquet('gs://kc-moe/dataset/parquet/kcbert-cleaned', engine='fastparquet')
-        for index, row in df.iterrows():
+        for i, (_, row) in enumerate(df.iterrows()):
             example = row.to_dict()
-            yield index, example
+            yield i, example
 

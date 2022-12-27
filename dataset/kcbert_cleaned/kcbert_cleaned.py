@@ -21,7 +21,8 @@ class KcbertCleaned(GeneratorBasedBuilder):
         }
 
     def _generate_examples(self):
-        client = Client() # initialize distributed cluster
         df = dd.read_parquet('gs://kc-moe/dataset/parquet/kcbert-cleaned', engine='fastparquet')
         for index, row in df.iterrows():
-            yield index, row
+            example = row.to_dict()
+            yield index, example
+

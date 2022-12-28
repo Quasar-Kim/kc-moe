@@ -21,7 +21,7 @@ class NaverNer(GeneratorBasedBuilder):
         )
     
     def _split_generators(self, *args):
-        splits = ['train', 'validation']
+        splits = ['train', 'test']
         return {split: self._generate_examples(split) for split in splits}
 
     def _generate_examples(self, split):

@@ -1,6 +1,7 @@
 from tensorflow_datasets import features
 from tensorflow_datasets.core import GeneratorBasedBuilder, Version
 from tensorflow_datasets.core.dataset_info import DatasetInfo
+import tensorflow as tf
 import pandas as pd
 
 class Korsts(GeneratorBasedBuilder):
@@ -12,7 +13,7 @@ class Korsts(GeneratorBasedBuilder):
             features=features.FeaturesDict({
                 'text1': features.Text(),
                 'text2': features.Text(),
-                'score': features.Scalar()
+                'score': features.Scalar(dtype=tf.float32)
             })
         )
     

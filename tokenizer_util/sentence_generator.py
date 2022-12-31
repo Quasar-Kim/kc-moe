@@ -1,5 +1,5 @@
 import tensorflow_datasets as tfds
-from preprocessor.retokenize import retokenize
+from preprocessor import retokenize
 import gin
 
 @gin.register

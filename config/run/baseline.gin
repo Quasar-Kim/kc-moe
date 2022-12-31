@@ -1,0 +1,32 @@
+# how to train
+# 1. SSH into TPU VM
+# 2. clone & cd into this repo
+# 3. run tpu-setup.sh
+# 4. run t5x:
+# python 3.10 -m t5x.train \ 
+#    --gin_file="config/run/baseline.gin" \
+#    --gin.MIXTURE_OR_TASK_NAME="kcbert_cleaned" \
+#    --tfds_data_dir="gs://kc-moe/dataset/tfds"
+  
+
+import tasks
+
+include 't5x/examples/t5/t5_1_1/base.gin'
+include 't5x/configs/runs/pretrain.gin'
+
+MIXTURE_OR_TASK_NAME = %gin.REQUIRED
+TASK_FEATURE_LENGTH = {"inputs": 512, "targets": 114}
+TRAIN_STEPS = 262144 # 2^18K steps
+DROOUT_RATE = 0.0
+BATCH_SIZE = 256
+VOCABULARY = 'gs://kc-moe/vocab/mecab_sentencepiece_32k.model'
+
+train_script.train:
+    eval_period = 2000
+
+seqio.SentencePieceVocabulary.sentencepiece_model_file = %VOCABULARY
+get_vocabulary:
+    vocab_file = %VOCABULARY
+    extra_ids = 100
+network.T5Config:
+    vocab_size = 33024  # vocab size rounded to a multiple of 128 for TPU efficiency, actual size is 33000

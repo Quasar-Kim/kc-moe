@@ -3,21 +3,17 @@ import preprocessor
 from functools import partial
 from t5.data import preprocessors as t5_preprocessor
 from t5.evaluation import metrics
-import gin
-
-@gin.register
-def get_vocabulary(*, vocab_file, extra_ids):
-    return seqio.SentencePieceVocabulary(vocab_file, extra_ids=extra_ids)
 
 TFDS_DATA_DIR = 'gs://kc-moe/dataset/tfds'
+DEFAULT_VOCAB_FILE = 'gs://kc-moe/vocab/morpheme_aware_unigram_32k.model'
 DEFAULT_OUTPUT_FEATURES = {
     'inputs': seqio.Feature(
-        vocabulary=get_vocabulary(),
+        vocabulary=seqio.SentencePieceVocabulary(DEFAULT_VOCAB_FILE, extra_ids=100),
         add_eos=True,
         required=False
     ),
     'targets': seqio.Feature(
-        vocabulary=get_vocabulary(),
+        vocabulary=seqio.SentencePieceVocabulary(DEFAULT_VOCAB_FILE, extra_ids=100),
         add_eos=True
     )
 }
@@ -87,7 +83,7 @@ seqio.TaskRegistry.add(
         ),
         partial(
             preprocessor.remap,
-            target_column=['target'],
+            target_column='target',
             mapping={
                 '0': '부정적',
                 '1': '긍정적'

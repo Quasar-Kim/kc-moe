@@ -49,7 +49,7 @@ def to_single_sentence_classification_prompt(example, *, prefix, text_columns, t
 
 @seqio.map_over_dataset
 def ensure_str(example):
-    for k, v in example:
+    for k, v in example.items():
         if not isinstance(v, str):
             example[k] = str(v)
     return example

@@ -23,6 +23,4 @@ mv flaxformer flaxformer-tmp
 mv flaxformer-tmp/flaxformer .
 rm -rf flaxformer-tmp
 
-# set enviromnetal variables
-export GOOGLE_CLOUD_BUCKET_NAME=kc-moe
-export TFDS_DATA_DIR=gs://$GOOGLE_CLOUD_BUCKET_NAME/dataset/tfds
+python3.10 -m install python-mecab-ko

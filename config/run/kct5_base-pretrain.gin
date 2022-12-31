@@ -4,6 +4,7 @@ import __main__ as train_script
 from t5x import utils
 from t5x import models
 from t5x import partitioning
+from t5x.examples.t5 import network
 import seqio
 
 # load tasks
@@ -16,11 +17,13 @@ include 't5x/configs/runs/pretrain.gin'
 
 # configure run
 MIXTURE_OR_TASK_NAME = 'kcbert_cleaned'
-TASK_FEATURE_LENGTH = {"inputs": 512, "targets": 114}
+TASK_FEATURE_LENGTHS = {"inputs": 512, "targets": 114}
 TRAIN_STEPS = 131072 # 2^17 steps = 2^34(17B) tokens
 DROPOUT_RATE = 0.0
 BATCH_SIZE = 256
-VOCABULARY = 'gs://kc-moe/vocab/mecab_sentencepiece_32k.model'
+VOCABULARY_FILE = 'gs://kc-moe/vocab/morpheme_aware_sentencepiece_32k.model'
+
+seqio.SentencePieceVocabulary.sentencepiece_model_file = %VOCABULARY_FILE
 
 network.T5Config:
   vocab_size = 33152  # vocab size rounded to a multiple of 128 for TPU efficiency, actual size is 33100

@@ -50,7 +50,6 @@ seqio.TaskRegistry.add(
     ),
     preprocessors=[
         preprocessor.ensure_str,
-        partial(preprocessor.retokenize, target_columns=['text']),
         partial(seqio.preprocessors.rekey, key_map={
             'inputs': None,
             'targets': 'text'

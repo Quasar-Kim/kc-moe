@@ -1,0 +1,15 @@
+from tokenizer_util import sentence_generator
+
+train:
+    model_name = 'unigram_32k'
+    model_type = 'unigram'
+    vocab_size = 32000
+    n_unused_symbols = 1000
+    n_extra_symbols = 100
+    sentence_iterator = @sentence_generator.generate_sentence_from_tfds()
+
+generate_sentence_from_tfds:
+    dataset = 'kcbert_cleaned:1.0.0'
+    split = 'train[:5%]'
+    text_column = 'text'
+    data_dir = 'gs://kc-moe/dataset/tfds'

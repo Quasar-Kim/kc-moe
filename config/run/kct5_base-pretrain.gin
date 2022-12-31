@@ -1,0 +1,59 @@
+# load required scripts
+from __gin__ import dynamic_registration
+import __main__ as train_script
+from t5x import utils
+from t5x import models
+from t5x import partitioning
+import seqio
+
+# load tasks
+import tasks
+
+# load model
+include 't5x/examples/t5/t5_1_1/base.gin'
+# load base run config
+include 't5x/configs/runs/pretrain.gin'
+
+# configure run
+MIXTURE_OR_TASK_NAME = 'kcbert_cleaned'
+TASK_FEATURE_LENGTH = {"inputs": 512, "targets": 114}
+TRAIN_STEPS = 131072 # 2^17 steps = 2^34(17B) tokens
+DROPOUT_RATE = 0.0
+BATCH_SIZE = 256
+VOCABULARY = 'gs://kc-moe/vocab/mecab_sentencepiece_32k.model'
+
+network.T5Config:
+  vocab_size = 33152  # vocab size rounded to a multiple of 128 for TPU efficiency, actual size is 33100
+
+train_script.train:
+  eval_period = 2000
+  eval_steps = 20
+  use_hardware_rng = True
+  infer_eval_dataset_cfg = @infer_eval/utils.DatasetConfig()
+  inference_evaluator_cls = @seqio.Evaluator
+
+utils.SaveCheckpointConfig:
+  period = 2000
+  save_dataset = True
+
+train/utils.DatasetConfig:
+  batch_size = %BATCH_SIZE
+  use_cached = False
+  pack = True
+  seed = 0
+
+train_eval/utils.DatasetConfig:
+  batch_size = %BATCH_SIZE
+  use_cached = False
+  pack = True
+  seed = 0
+
+seqio.Evaluator:
+  logger_cls = [@seqio.TensorBoardLogger, @seqio.JSONLogger]
+  num_examples = None
+  use_memory_cache = True
+
+utils.create_learning_rate_scheduler:
+  factors = 'constant * rsqrt_decay'
+  base_learning_rate = 1.0
+  warmup_steps = 10000

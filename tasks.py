@@ -21,23 +21,23 @@ DEFAULT_OUTPUT_FEATURES = {
 def get_tfds_source(*args, **kwargs):
     return seqio.TfdsDataSource(*args, **kwargs, tfds_data_dir=TFDS_DATA_DIR)
 
-seqio.TaskRegistry.add(
-    name='tfds_test',
-    source=get_tfds_source('tfds_test:1.0.0', splits={ 'train': 'train[:90%]', 'test': 'train[90%:]' }),
-    preprocessors=[
-        partial(preprocessor.retokenize, target_columns=['text']),
-        partial(seqio.preprocessors.rekey, key_map={
-            'inputs': None,
-            'targets': 'text'
-        }),
-        seqio.preprocessors.tokenize,
-        seqio.CacheDatasetPlaceholder(),
-        t5_preprocessor.span_corruption,
-        seqio.preprocessors.append_eos_after_trim
-    ],
-    output_features=DEFAULT_OUTPUT_FEATURES,
-    metric_fns=[]
-)
+# seqio.TaskRegistry.add(
+#     name='tfds_test',
+#     source=get_tfds_source('tfds_test:1.0.0', splits={ 'train': 'train[:90%]', 'test': 'train[90%:]' }),
+#     preprocessors=[
+#         partial(preprocessor.retokenize, target_columns=['text']),
+#         partial(seqio.preprocessors.rekey, key_map={
+#             'inputs': None,
+#             'targets': 'text'
+#         }),
+#         seqio.preprocessors.tokenize,
+#         seqio.CacheDatasetPlaceholder(),
+#         t5_preprocessor.span_corruption,
+#         seqio.preprocessors.append_eos_after_trim
+#     ],
+#     output_features=DEFAULT_OUTPUT_FEATURES,
+#     metric_fns=[]
+# )
 
 seqio.TaskRegistry.add(
     name='kcbert_cleaned',
@@ -49,6 +49,7 @@ seqio.TaskRegistry.add(
         }
     ),
     preprocessors=[
+        preprocessor.ensure_str,
         partial(preprocessor.retokenize, target_columns=['text']),
         partial(seqio.preprocessors.rekey, key_map={
             'inputs': None,
@@ -76,20 +77,12 @@ seqio.TaskRegistry.add(
     preprocessors=[
         preprocessor.ensure_str,
         partial(
-            preprocessor.to_single_sentence_classification_prompt,
+            preprocessor.to_single_sentence_classification_input,
             prefix='nsmc',
             text_columns=['text'],
             target_column='label'
         ),
-        partial(
-            preprocessor.remap,
-            target_column='target',
-            mapping={
-                '0': '부정적',
-                '1': '긍정적'
-            }
-        ),
-        partial(preprocessor.retokenize, target_columns=['text']),
+        partial(preprocessor.retokenize, target_columns=['inputs', 'targets']),
         seqio.preprocessors.tokenize,
         seqio.CacheDatasetPlaceholder(),
         seqio.preprocessors.append_eos_after_trim

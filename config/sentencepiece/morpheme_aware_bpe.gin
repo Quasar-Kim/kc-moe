@@ -1,8 +1,8 @@
 from tokenizer_util import sentence_generator
 
 train:
-    model_name = 'morpheme_aware_unigram_32K'
-    model_type = 'unigram'
+    model_name = 'morpheme_aware_bpe_32k'
+    model_type = 'bpe'
     vocab_size = 32000
     n_unused_symbols = 1000
     n_extra_symbols = 100

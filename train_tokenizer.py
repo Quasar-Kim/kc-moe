@@ -8,29 +8,30 @@ import argparse
 def train(
     *,
     model_name,
+    model_type,
     vocab_size,
     n_unused_symbols,
     n_extra_symbols,
     sentence_iterator
 ):
-    unused_symbols = [f'<unused_{i}>' for i in range(n_unused_symbols)]
     model = io.BytesIO()
     spm.SentencePieceTrainer.train(
         sentence_iterator=sentence_iterator,
+        model_type=model_type,
         vocab_size=vocab_size,
         pad_id=0,
         eos_id=1,
         unk_id=2,
         bos_id=-1,
-        control_symbols=unused_symbols,
         split_by_whitespace=True,
-        model_writer=model
+        model_writer=model,
+        train_extremely_large_corpus=True
     )
 
     # add extra symbols
     model_proto = pb_model.ModelProto()
     model_proto.ParseFromString(model.getvalue())
-    extra_symbols = [f'<extra_id_{i}>' for i in range(n_extra_symbols)]
+    extra_symbols = [f'<unused_{i}>' for i in range(n_unused_symbols)] + [f'<extra_id_{i}>' for i in range(n_extra_symbols)] 
     for symbol in extra_symbols:
         symbol_proto = pb_model.ModelProto().SentencePiece()
         symbol_proto.piece = symbol

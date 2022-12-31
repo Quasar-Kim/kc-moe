@@ -11,7 +11,6 @@ def generate_retokenized_sentence_from_tfds(
     data_dir = None
 ):
     ds = tfds.load(dataset, split=split, data_dir=data_dir, shuffle_files=True)
-    ds = ds.shuffle(buffer_size=1_000_000)
     ds = retokenize(ds, target_columns=[text_column])
     for example in ds.as_numpy_iterator():
         sentence = example[text_column].decode('utf-8')
@@ -25,8 +24,7 @@ def generate_sentence_from_tfds(
     split,
     text_column
 ):
-    ds = tfds.load(dataset, split=split, data_dir=data_dir)
-    ds = ds.shuffle(buffer_size=1_000_000)
+    ds = tfds.load(dataset, split=split, data_dir=data_dir, shuffle_files=True)
     for example in ds.as_numpy_iterator():
         sentence = example[text_column].decode('utf-8')
         yield sentence

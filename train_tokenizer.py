@@ -10,7 +10,6 @@ def train(
     model_name,
     model_type,
     vocab_size,
-    n_unused_symbols,
     n_extra_symbols,
     sentence_iterator
 ):
@@ -31,11 +30,12 @@ def train(
     # add extra symbols
     model_proto = pb_model.ModelProto()
     model_proto.ParseFromString(model.getvalue())
-    extra_symbols = [f'<unused_{i}>' for i in range(n_unused_symbols)] + [f'<extra_id_{i}>' for i in range(n_extra_symbols)] 
+    extra_symbols = [f'▁<extra_id_{i}>' for i in reversed(range(n_extra_symbols))] 
     for symbol in extra_symbols:
         symbol_proto = pb_model.ModelProto().SentencePiece()
         symbol_proto.piece = symbol
-        symbol_proto.score = 0
+        symbol_proto.score = 0.0
+        symbol_proto.type = pb_model.ModelProto.SentencePiece.USER_DEFINED
         model_proto.pieces.append(symbol_proto)
 
     # save model

@@ -6,14 +6,15 @@ from t5.evaluation import metrics
 
 TFDS_DATA_DIR = 'gs://kc-moe/dataset/tfds'
 DEFAULT_VOCAB_FILE = 'gs://kc-moe/vocab/morpheme_aware_unigram_32k.model'
+DEFAULT_EXTRA_IDS = 100
 DEFAULT_OUTPUT_FEATURES = {
     'inputs': seqio.Feature(
-        vocabulary=seqio.SentencePieceVocabulary(DEFAULT_VOCAB_FILE, extra_ids=100),
+        vocabulary=seqio.SentencePieceVocabulary(DEFAULT_VOCAB_FILE, extra_ids=DEFAULT_EXTRA_IDS),
         add_eos=True,
         required=False
     ),
     'targets': seqio.Feature(
-        vocabulary=seqio.SentencePieceVocabulary(DEFAULT_VOCAB_FILE, extra_ids=100),
+        vocabulary=seqio.SentencePieceVocabulary(DEFAULT_VOCAB_FILE, extra_ids=DEFAULT_EXTRA_IDS),
         add_eos=True
     )
 }
@@ -44,13 +45,12 @@ seqio.TaskRegistry.add(
     source=get_tfds_source(
         'kcbert_cleaned:1.0.0',
         splits={ 
-            'train': 'train[:90%]', 
-            'test': 'train[90%:]' 
+            'train': 'train[-300000:]', 
+            'validation': 'train[-300000:]' 
         }
     ),
     preprocessors=[
         preprocessor.ensure_str,
-        partial(preprocessor.retokenize, target_columns=['text']),
         partial(seqio.preprocessors.rekey, key_map={
             'inputs': None,
             'targets': 'text'

@@ -23,4 +23,5 @@ mv flaxformer flaxformer-tmp
 mv flaxformer-tmp/flaxformer .
 rm -rf flaxformer-tmp
 
+# install mecab (pre)tokenizer
 python3.10 -m pip install python-mecab-ko

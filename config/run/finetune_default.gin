@@ -1,0 +1,14 @@
+TASK_FEATURE_LENGTHS = {"inputs": 512, "targets": 128}
+BATCH_SIZE = 256
+USE_CACHED_TASKS = False
+EVAL_PERIOD = %gin.REQUIRED
+
+seqio.SentencePieceVocabulary.sentencepiece_model_file = 'gs://kc-moe/vocab/morpheme_aware_unigram_32k.100extra.model'
+
+train_script.train:
+  eval_period = %EVAL_PERIOD
+  random_seed = 42
+  use_hardware_rng = False
+
+seqio.Evaluator:
+  logger_cls = [@seqio.PyLoggingLogger, @seqio.TensorBoardLogger]

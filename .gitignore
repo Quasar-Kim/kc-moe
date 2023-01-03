@@ -2,5 +2,5 @@ __pycache__/
 .vscode/
 *.out
 *.code-workspace
-test.ipynb
+*.test.*
 flaxformer/

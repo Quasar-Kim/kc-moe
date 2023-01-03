@@ -1,75 +1,21 @@
-import seqio
 import tensorflow as tf
-from mecab import MeCab
-from functools import partial
 
-tokenizer = MeCab()
-
-@seqio.map_over_dataset
-def retokenize(example, target_columns):
+def prepare_example(example):
+    processed = dict()
     for k, v in example.items():
-        if k in target_columns:
-            out = tf.py_function(_retokenize_sentence, inp=[v], Tout=tf.string)
-            out.set_shape(tf.TensorShape([]))
-            example[k] = out
-    return example
+        if isinstance(v, str):
+            processed[k] = tf.convert_to_tensor(v)
+        elif isinstance(v, list):
+            processed[k] = tf.convert_to_tensor([tf.constant(item) for item in v])
+        else:
+            raise NotImplementedError("wow")
+    return processed
 
-def _retokenize_sentence(str_tensor):
-    try:
-        sentence = str_tensor.numpy().decode('utf-8')
-        tokens = tokenizer.morphs(sentence)
-    except Exception as err:
-        print(str_tensor)
-        raise err
-    return tf.convert_to_tensor(' '.join(tokens), dtype=tf.string)
-
-@seqio.map_over_dataset
-def to_prompt(example, *, prefix, text_columns, target_column):
-    if len(text_columns) > 1:
-        sentences = []
-        for i, col in enumerate(text_columns):
-            sentence = example[col]
-            part = tf.constant('문장') + tf.constant(str(i)) + tf.constant(': ') + sentence
-            sentences.append(part)
-        prompt_sentence = tf.strings.join(sentences, separator='  ')
-    else:
-        text_column = text_columns[0]
-        sentence = example[text_column]
-        prompt_sentence = tf.constant('문장: ') + sentence
-    prompt = tf.strings.join([prefix, ' ', prompt_sentence])
-    return {
-        'inputs': prompt,
-        'targets': example[target_column]
-    }
-
-@seqio.map_over_dataset
-def float_to_str(example, *, target_column, precision):
-    n = example[target_column]
-    example[target_column] = tf.strings.as_string(n, precision=precision)
-    return example
-
-@seqio.map_over_dataset
-def ensure_str(example):
-    for k, v in example.items():
-        if v.dtype is not tf.string:
-            example[k] = tf.strings.as_string(v)
-    return example
-
-def map(dataset, *, target_column, mapping):
-    table = tf.lookup.StaticHashTable(
-        tf.lookup.KeyValueTensorInitializer(
-            keys=tf.constant(list(mapping.keys())),
-            values=tf.constant(list(mapping.values()))
-        ),
-        default_value='Invalid'
-    )
-
-    def _map(example):
-        original = example[target_column]
-        example[target_column] = table[original]
-        return example
-
-    return dataset.map(_map, num_parallel_calls=tf.data.AUTOTUNE)
+example = prepare_example({
+	"text": " 11년 개봉된 무비 ‘슈퍼스타 아르바뜨용’의 사실 됨됨이으로 얘깃거리를 모았던 위펑씨가 기신의 목숨을 담은 책 동감. 소나타’(대경북스 · 5만2000원)를 펴냈다 . ",
+	"words": ["11년", "개봉된", "무비", "‘슈퍼스타", "아르바뜨용’의", "사실", "됨됨이으로", "얘깃거리를", "모았던", "위펑씨가", "기신의", "목숨을", "담은", "책", "동감.", "소나타’(대경북스", "·", "5만2000원)를", "펴냈다", "."],
+	"labels": ["DAT_B", "-", "FLD_B", "AFW_B", "AFW_I", "-", "-", "-", "-", "PER_B", "-", "-", "-", "-", "AFW_I", "AFW_I", "-", "NUM_B", "-", "-"]
+})
 
 LABEL_MAPPING = tf.lookup.StaticHashTable(
     tf.lookup.KeyValueTensorInitializer(
@@ -79,20 +25,15 @@ LABEL_MAPPING = tf.lookup.StaticHashTable(
     default_value='-'
 )
 
-@seqio.map_over_dataset
-def round(example, *, target_column, base: float):
-    n = example[target_column]
-    example[target_column] = base * tf.math.round(n / base)
-    return example
-
-@seqio.map_over_dataset
+@tf.autograph.experimental.do_not_convert
 def to_ner_input(example):
     # 1. 레이블 바꾸기
     def _map_label(label):
         def _change_tag_name():
             splitted = tf.strings.split(label, sep=tf.constant('_'))
             tag_name, suffix = splitted[0], splitted[1]
-            return LABEL_MAPPING[tag_name] + tf.constant('_') + suffix
+            out = LABEL_MAPPING[tag_name] + tf.constant('_') + suffix
+            return out
         return tf.cond(
             label == tf.constant('-'),
             lambda: label,
@@ -140,3 +81,6 @@ def to_ner_input(example):
     }
     tf.print(out, summarize=-1)
     return out
+
+out = to_ner_input(example)
+print(out)

@@ -26,10 +26,11 @@ def train(
         model_writer=model,
         train_extremely_large_corpus=True
     )
-
-    # add extra symbols
     model_proto = pb_model.ModelProto()
     model_proto.ParseFromString(model.getvalue())
+    save_model(model_proto, f'{model_name}.model')
+
+    # add extra symbols
     extra_symbols = [f'▁<extra_id_{i}>' for i in reversed(range(n_extra_symbols))] 
     for symbol in extra_symbols:
         symbol_proto = pb_model.ModelProto().SentencePiece()
@@ -37,12 +38,15 @@ def train(
         symbol_proto.score = 0.0
         symbol_proto.type = pb_model.ModelProto.SentencePiece.USER_DEFINED
         model_proto.pieces.append(symbol_proto)
+    save_model(model_proto, f'{model_name}.{n_extra_symbols}extra.model')
 
-    # save model
-    with open(f'vocab/{model_name}.model', 'wb') as f:
+    print(f'Model training complete')
+
+def save_model(model_proto, name):
+    model_path = f'vocab/{name}'
+    with open(model_path, 'wb') as f:
         f.write(model_proto.SerializeToString())
-
-    print(f'Model training complete. Final size is {vocab_size + n_extra_symbols}')
+    print(f'Saved {model_path}')
     
 
 def parse_args():

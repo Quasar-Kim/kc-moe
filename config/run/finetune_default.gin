@@ -1,3 +1,8 @@
+from __gin__ import dynamic_registration
+import __main__ as train_script
+import seqio
+import tasks
+
 TASK_FEATURE_LENGTHS = {"inputs": 512, "targets": 128}
 BATCH_SIZE = 256
 USE_CACHED_TASKS = False

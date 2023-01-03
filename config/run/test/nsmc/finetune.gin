@@ -10,3 +10,4 @@ INITIAL_CHECKPOINT_PATH = 'gs://kc-moe/t5x/kct5-test-2/checkpoint_50000'
 MIXTURE_OR_TASK_NAME = 'nsmc'
 TRAIN_STEPS = 50_672 # 672 + 50_000
 EVAL_PERIOD = 50
+TASK_FEATURE_LENGTHS = {"inputs": 512, "targets": 128}

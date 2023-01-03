@@ -24,12 +24,13 @@ def _retokenize_sentence(str_tensor):
     return tf.convert_to_tensor(' '.join(tokens), dtype=tf.string)
 
 @seqio.map_over_dataset
-def to_prompt(example, *, prefix, text_columns, target_column):
+def to_prompt(example, *, prefix, text_columns, target_column, text_prefixes=None):
     if len(text_columns) > 1:
         sentences = []
-        for i, col in enumerate(text_columns):
+        sentence_prefixes = text_prefixes or [f'문장{i}' for i in range(1, len(text_columns) + 1)]
+        for col, sentence_prefix in zip(text_columns, sentence_prefixes):
             sentence = example[col]
-            part = tf.constant('문장') + tf.constant(str(i)) + tf.constant(': ') + sentence
+            part = tf.constant(sentence_prefix) + tf.constant(': ') + sentence
             sentences.append(part)
         prompt_sentence = tf.strings.join(sentences, separator='  ')
     else:

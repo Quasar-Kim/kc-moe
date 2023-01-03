@@ -123,6 +123,7 @@ seqio.TaskRegistry.add(
             preprocessor.to_prompt,
             prefix='kornli',
             text_columns=['text1', 'text2'],
+            text_prefixes=['전제', '가설'],
             target_column='label'
         ),
         seqio.preprocessors.tokenize,

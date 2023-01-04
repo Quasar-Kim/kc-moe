@@ -7,7 +7,7 @@ from t5x import utils
 BATCH_SIZE = 256
 USE_CACHED_TASKS = False
 EVAL_PERIOD = %gin.REQUIRED
-CHECKPOINT_PEROID = %gin.REQUIRED
+CHECKPOINT_PERIOD = %gin.REQUIRED
 
 seqio.SentencePieceVocabulary.sentencepiece_model_file = 'gs://kc-moe/vocab/morpheme_aware_unigram_32k.100extra.model'
 
@@ -20,4 +20,4 @@ seqio.Evaluator:
   logger_cls = [@seqio.PyLoggingLogger, @seqio.TensorBoardLogger]
 
 utils.SaveCheckpointConfig:
-  period = %CHECKPOINT_PEROID
+  period = %CHECKPOINT_PERIOD

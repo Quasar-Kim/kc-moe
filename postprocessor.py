@@ -7,12 +7,16 @@ class InvalidTaggingException(Exception):
     pass
 
 def regression(output_or_target, *, base, example=None, is_target=False):
-    # to number
-    n = float(output_or_target)
-    if is_target:
-        return n
-    # round
-    n = base * round(n / base)
+    try:
+        # to number
+        n = float(output_or_target)
+        if is_target:
+            return n
+        # round
+        n = base * round(n / base)
+    except ValueError:
+        # conversion failed
+        return -1
     return n
 
 def map_output(output_or_target, *, mapping, example=None, default_value, is_target=False):

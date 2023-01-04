@@ -3,10 +3,10 @@ import __main__ as train_script
 import seqio
 import tasks
 
-TASK_FEATURE_LENGTHS = {"inputs": 512, "targets": 128}
 BATCH_SIZE = 256
 USE_CACHED_TASKS = False
 EVAL_PERIOD = %gin.REQUIRED
+CHECKPOINT_PEROID = %gin.REQUIRED
 
 seqio.SentencePieceVocabulary.sentencepiece_model_file = 'gs://kc-moe/vocab/morpheme_aware_unigram_32k.100extra.model'
 
@@ -17,3 +17,6 @@ train_script.train:
 
 seqio.Evaluator:
   logger_cls = [@seqio.PyLoggingLogger, @seqio.TensorBoardLogger]
+
+utils.SaveCheckpointConfig:
+  period = %CHECKPOINT_PEROID

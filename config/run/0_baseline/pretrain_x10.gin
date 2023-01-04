@@ -1,0 +1,4 @@
+include 'config/run/0_baseline/pretrain.gin'
+
+TRAIN_STEPS = 1310720
+MODEL_DIR = 'gs://kc-moe/t5x/kct5-base-x10'

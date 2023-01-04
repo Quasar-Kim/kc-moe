@@ -1,0 +1,15 @@
+include 't5x/examples/t5/t5_1_1/base.gin'
+include 't5x/configs/runs/finetune.gin'
+include 'config/run/finetune_default.gin'
+
+# 2^17(2^9 * 2^8) tokens per step
+# dataset has approx. 30,000,000 tokens
+# -> 300 steps = one epoch
+# train for 64 epochs -> 19200 steps
+TASK_FEATURE_LENGTHS = {"inputs": 512, "targets": 32}
+TRAIN_STEPS = 156_072 # 19_200 + 131072
+MIXTURE_OR_TASK_NAME = 'kornli'
+INITIAL_CHECKPOINT_PATH = 'gs://kc-moe/t5x/kct5-base/checkpoint_131072'
+MODEL_DIR = 'gs://kc-moe/t5x/kct5-base-kornli'
+EVAL_PERIOD = 100
+CHECKPOINT_PERIOD = 200

@@ -1,0 +1,15 @@
+include 't5x/examples/t5/t5_1_1/base.gin'
+include 't5x/configs/runs/finetune.gin'
+include 'config/run/finetune_default.gin'
+
+# 2^17(2^9 * 2^8) tokens per step
+# dataset has approx. 150,000 tokens
+# -> 2 steps = one epoch
+# train for 128 epochs -> 256 steps
+TASK_FEATURE_LENGTHS = {"inputs": 512, "targets": 32}
+TRAIN_STEPS = 131_328 # 256 + 131_328
+MIXTURE_OR_TASK_NAME = 'hate_speech'
+INITIAL_CHECKPOINT_PATH = 'gs://kc-moe/t5x/kct5-base/checkpoint_131072'
+MODEL_DIR = 'gs://kc-moe/t5x/kct5-base-hate-speech'
+EVAL_PERIOD = 1
+CHECKPOINT_PERIOD = 2

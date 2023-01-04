@@ -6,18 +6,13 @@ ERROR_TAG = '-'
 class InvalidTaggingException(Exception):
     pass
 
-def regression(output_or_target, *, base, example=None, is_target=False):
+def regression(output_or_target, *, example=None, is_target=False):
     try:
         # to number
-        n = float(output_or_target)
-        if is_target:
-            return n
-        # round
-        n = base * round(n / base)
+        return float(output_or_target)
     except ValueError:
         # conversion failed
         return -1
-    return n
 
 def map_output(output_or_target, *, mapping, example=None, default_value, is_target=False):
     if is_target:

@@ -164,10 +164,7 @@ seqio.TaskRegistry.add(
         seqio.preprocessors.append_eos_after_trim
     ],
     output_features=DEFAULT_OUTPUT_FEATURES,
-    postprocess_fn=partial(
-        postprocessor.regression,
-        base=0.2
-    ),
+    postprocess_fn=postprocessor.regression,
     metric_fns=[
         t5_metrics.spearman_corrcoef
     ]

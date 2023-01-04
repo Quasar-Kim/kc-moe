@@ -114,9 +114,9 @@ seqio.TaskRegistry.add(
             preprocessor.map,
             target_column='label',
             mapping={
-                'neutral': '중립',
-                'contradiction': '모순',
-                'entailment': '수반'
+                '0': '중립',
+                '1': '모순',
+                '2': '수반'
             }
         ),
         partial(

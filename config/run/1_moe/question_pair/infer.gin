@@ -1,0 +1,5 @@
+include 't5x/configs/runs/eval.gin'
+include 'flaxformer/t5x/configs/moe/models/st_moe_base.gin'
+include 'config/run/infer_default.gin'
+
+MIXTURE_OR_TASK_NAME = 'question_pair'

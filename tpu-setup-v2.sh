@@ -14,7 +14,7 @@ curl -sSL https://install.python-poetry.org | python3.10 -
 export PATH="~/.local/bin:$PATH"
 
 # clone & install all requirements
-git clone https://github.com/quasar-kim/kc-moe
+git clone https://github.com/quasar-kim/kc-moe -b europe --single-branch
 cd kc-moe
 rm poetry.lock
 poetry install --no-root --all-extras

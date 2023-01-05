@@ -12,4 +12,4 @@ generate_sentence_from_tfds:
     dataset = 'kcbert_cleaned:1.0.0'
     split = 'train[:5%]'
     text_column = 'text'
-    data_dir = 'gs://kc-moe/dataset/tfds'
+    data_dir = 'gs://kc-moe-eu/dataset/tfds'

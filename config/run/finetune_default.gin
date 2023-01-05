@@ -11,7 +11,7 @@ USE_CACHED_TASKS = False
 EVAL_PERIOD = %gin.REQUIRED
 CHECKPOINT_PERIOD = %gin.REQUIRED
 
-seqio.SentencePieceVocabulary.sentencepiece_model_file = 'gs://kc-moe/vocab/morpheme_aware_unigram_32k.100extra.model'
+seqio.SentencePieceVocabulary.sentencepiece_model_file = 'gs://kc-moe-eu/vocab/morpheme_aware_unigram_32k.100extra.model'
 
 train_script.train:
   eval_period = %EVAL_PERIOD

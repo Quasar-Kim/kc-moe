@@ -6,8 +6,8 @@ from functools import partial
 from t5.data import preprocessors as t5_preprocessor
 from t5.evaluation import metrics as t5_metrics
 
-TFDS_DATA_DIR = 'gs://kc-moe/dataset/tfds'
-DEFAULT_VOCAB_FILE = 'gs://kc-moe/vocab/morpheme_aware_unigram_32k.model'
+TFDS_DATA_DIR = 'gs://kc-moe-eu/dataset/tfds'
+DEFAULT_VOCAB_FILE = 'gs://kc-moe-eu/vocab/morpheme_aware_unigram_32k.model'
 DEFAULT_EXTRA_IDS = 100
 DEFAULT_OUTPUT_FEATURES = {
     'inputs': seqio.Feature(

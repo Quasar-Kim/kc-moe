@@ -14,9 +14,9 @@ BATCH_SIZE = 256
 USE_CACHED_TASKS = False
 NUM_MODEL_PARTITIONS = 2
 
-MODEL_DIR = 'gs://kc-moe/t5x/pretrain/1-kc-moe-base'
+MODEL_DIR = 'gs://kc-moe-eu/t5x/pretrain/1-kc-moe-base'
 
-seqio.SentencePieceVocabulary.sentencepiece_model_file = 'gs://kc-moe/vocab/morpheme_aware_unigram_32k.100extra.model'
+seqio.SentencePieceVocabulary.sentencepiece_model_file = 'gs://kc-moe-eu/vocab/morpheme_aware_unigram_32k.100extra.model'
 
 train_script.train:
   eval_period = 500

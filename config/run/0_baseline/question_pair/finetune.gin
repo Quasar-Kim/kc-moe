@@ -8,7 +8,7 @@ include 'config/run/finetune_default.gin'
 TASK_FEATURE_LENGTHS = {"inputs": 512, "targets": 32}
 TRAIN_STEPS = 131_200 # 128 + 131072
 MIXTURE_OR_TASK_NAME = 'question_pair'
-INITIAL_CHECKPOINT_PATH = 'gs://kc-moe/t5x/kct5-base/checkpoint_131072'
-MODEL_DIR = 'gs://kc-moe/t5x/question-pair/0-kct5-base'
+INITIAL_CHECKPOINT_PATH = 'gs://kc-moe-eu/t5x/kct5-base/checkpoint_131072'
+MODEL_DIR = 'gs://kc-moe-eu/t5x/question-pair/0-kct5-base'
 EVAL_PERIOD = 1
 CHECKPOINT_PERIOD = 2

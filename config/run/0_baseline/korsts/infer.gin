@@ -2,5 +2,5 @@ include 't5x/configs/runs/eval.gin'
 include 't5x/examples/t5/t5_1_1/base.gin'
 include 'config/run/infer_default.gin'
 
-CHECKPOINT_PATH = 'gs://kc-moe/t5x/kct5-base-korsts/checkpoint_44200'
+CHECKPOINT_PATH = %gin.REQUIRED
 MIXTURE_OR_TASK_NAME = 'korsts'

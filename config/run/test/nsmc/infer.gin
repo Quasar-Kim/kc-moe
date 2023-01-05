@@ -1,6 +1,0 @@
-include 't5x/configs/runs/eval.gin'
-include 't5x/examples/t5/t5_1_1/base.gin'
-include 'config/run/infer_default.gin'
-
-CHECKPOINT_PATH = 'gs://kc-moe/t5x/kct5-test-2-nsmc/checkpoint_50672'
-MIXTURE_OR_TASK_NAME = 'nsmc'

@@ -4,7 +4,7 @@ import seqio
 import tasks
 
 include 'flaxformer/t5x/configs/moe/models/st_moe_base.gin'
-include 't5x/configs/runs/pretrain.gin'
+include 't5x/contrib/moe/configs/runs/pretrain.gin'
 
 MIXTURE_OR_TASK_NAME = 'kcbert_cleaned'
 TASK_FEATURE_LENGTHS = {"inputs": 512, "targets": 114}
@@ -12,6 +12,8 @@ TRAIN_STEPS = 131072 # = baseline
 DROPOUT_RATE = 0.0
 BATCH_SIZE = 256
 USE_CACHED_TASKS = False
+NUM_MODEL_PARTITIONS = 2
+
 MODEL_DIR = 'gs://kc-moe/t5x/pretrain/1-kc-moe-base'
 
 seqio.SentencePieceVocabulary.sentencepiece_model_file = 'gs://kc-moe/vocab/morpheme_aware_unigram_32k.100extra.model'
@@ -23,3 +25,5 @@ train_script.train:
 
 seqio.Evaluator:
   logger_cls = [@seqio.PyLoggingLogger, @seqio.TensorBoardLogger]
+
+

@@ -11,4 +11,4 @@ MIXTURE_OR_TASK_NAME = 'korsts'
 INITIAL_CHECKPOINT_PATH = 'gs://kc-moe/t5x/kct5-base/checkpoint_131072'
 MODEL_DIR = 'gs://kc-moe/t5x/korsts/0-kct5-base'
 EVAL_PERIOD = 2
-CHECKPOINT_PERIOD = 4
+CHECKPOINT_PERIOD = 8

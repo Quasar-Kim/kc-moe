@@ -10,5 +10,5 @@ MIXTURE_OR_TASK_NAME = 'nsmc'
 TRAIN_STEPS = 132_416 # 1344 + 131072
 EVAL_PERIOD = 50
 TASK_FEATURE_LENGTHS = {"inputs": 512, "targets": 128}
-MODEL_DIR = 'gs://kc-moe-eu/t5x/nsmc/0-kct5-base'
+MODEL_DIR = 'gs://kc-moe/t5x/nsmc/0-kct5-base'
 CHECKPOINT_PERIOD = 200

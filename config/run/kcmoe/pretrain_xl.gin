@@ -3,7 +3,7 @@ import __main__ as train_script
 import seqio
 import tasks
 
-include 'flaxformer/t5x/configs/moe/models/st_moe_base.gin'
+include 'flaxformer/t5x/configs/moe/models/st_moe_xl.gin'
 include 't5x/contrib/moe/configs/runs/pretrain.gin'
 
 MIXTURE_OR_TASK_NAME = 'kcbert_cleaned'
@@ -12,7 +12,7 @@ TRAIN_STEPS = 1048576 # = baseline
 DROPOUT_RATE = 0.0
 BATCH_SIZE = 256
 USE_CACHED_TASKS = False
-NUM_MODEL_PARTITIONS = 2
+NUM_MODEL_PARTITIONS = 4
 
 MODEL_DIR = 'gs://kc-moe-eu/t5x/pretrain/2-kc-moe-base'
 

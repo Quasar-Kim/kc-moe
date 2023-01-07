@@ -4,10 +4,13 @@ import seqio
 import tasks
 from t5x import utils
 
+include 't5x/contrib/moe/configs/runs/finetune.gin'
+
 BATCH_SIZE = 256
 USE_CACHED_TASKS = False
 EVAL_PERIOD = %gin.REQUIRED
 CHECKPOINT_PERIOD = %gin.REQUIRED
+NUM_MODEL_PARTITIONS = 2
 
 seqio.SentencePieceVocabulary.sentencepiece_model_file = 'gs://kc-moe-eu/vocab/morpheme_aware_unigram_32k.100extra.model'
 

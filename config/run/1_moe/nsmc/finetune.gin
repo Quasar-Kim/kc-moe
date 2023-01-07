@@ -1,15 +1,14 @@
 include 'flaxformer/t5x/configs/moe/models/st_moe_base.gin'
-include 't5x/configs/runs/finetune.gin'
-include 'config/run/finetune_default.gin'
+include 'config/run/1_moe/finetune_default.gin'
 
 # 2^17 tokens in one step
 # dataset has approx. 2,700,000 tokens
 # -> 21 steps = one epoch
 # train for 64 epochs -> 1344 steps
-INITIAL_CHECKPOINT_PATH = 'gs://kc-moe-eu/t5x/kct5-base/checkpoint_131072'
+INITIAL_CHECKPOINT_PATH = 'gs://kc-moe-eu/t5x/pretrain/1-kc-moe-base/checkpoint_131072'
 MIXTURE_OR_TASK_NAME = 'nsmc'
 TRAIN_STEPS = 132_416 # 1344 + 131072
 EVAL_PERIOD = 50
 TASK_FEATURE_LENGTHS = {"inputs": 512, "targets": 128}
-MODEL_DIR = 'gs://kc-moe-eu/t5x/nsmc/0-kct5-base'
+MODEL_DIR = 'gs://kc-moe-eu/t5x/nsmc/1-kc-moe-base'
 CHECKPOINT_PERIOD = 200

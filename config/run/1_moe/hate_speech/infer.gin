@@ -1,0 +1,5 @@
+include 'flaxformer/t5x/configs/moe/models/st_moe_base.gin'
+include 'config/run/1_moe/infer_default.gin'
+
+CHECKPOINT_PATH = %gin.REQUIRED
+MIXTURE_OR_TASK_NAME = 'hate_speech'

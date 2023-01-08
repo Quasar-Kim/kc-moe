@@ -8,7 +8,7 @@ include 't5x/contrib/moe/configs/runs/pretrain.gin'
 
 MIXTURE_OR_TASK_NAME = 'kcbert_cleaned'
 TASK_FEATURE_LENGTHS = {"inputs": 512, "targets": 114}
-TRAIN_STEPS = 1048576
+TRAIN_STEPS = 524288
 DROPOUT_RATE = 0.0
 BATCH_SIZE = 32
 USE_CACHED_TASKS = False

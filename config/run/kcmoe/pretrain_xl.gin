@@ -14,14 +14,14 @@ BATCH_SIZE = 256
 USE_CACHED_TASKS = False
 NUM_MODEL_PARTITIONS = 4
 
-MODEL_DIR = 'gs://kc-moe-eu/t5x/pretrain/2-kc-moe-base'
+MODEL_DIR = 'gs://kc-moe-eu/t5x/pretrain/2-kc-moe-xl'
 
 seqio.SentencePieceVocabulary.sentencepiece_model_file = 'gs://kc-moe-eu/vocab/morpheme_aware_unigram_32k.100extra.model'
 
 train_script.train:
-  eval_period = 6000
+  eval_period = 10000
   random_seed = 42
   use_hardware_rng = True
 
 seqio.Evaluator:
-  logger_cls = [@seqio.TensorBoardLogger]
+  logger_cls = [@seqio.TensorBoardLogger, @seqio.PyLoggingLogger]

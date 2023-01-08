@@ -38,10 +38,13 @@ def to_prompt(example, *, prefix, text_columns, target_column, text_prefixes=Non
         sentence = example[text_column]
         prompt_sentence = tf.constant('문장: ') + sentence
     prompt = tf.strings.join([prefix, ' ', prompt_sentence])
-    return {
-        'inputs': prompt,
-        'targets': example[target_column]
+    output = {
+        'inputs': prompt
     }
+    if target_column is not None:
+        output['targets'] = example[target_column]
+
+    return output
 
 @seqio.map_over_dataset
 def float_to_str(example, *, target_column, precision):

@@ -244,6 +244,32 @@ seqio.TaskRegistry.add(
     ]
 )
 
+seqio.TaskRegistry.add(
+    name='hate_speech_test',
+    source=get_tfds_source(
+        'hate_speech_test:1.0.0',
+        splits=['test']
+    ),
+    preprocessors=[
+        partial(
+            preprocessor.to_prompt,
+            prefix='혐오댓글',
+            text_columns=['text'],
+            target_column=None
+        ),
+        seqio.preprocessors.tokenize,
+        seqio.CacheDatasetPlaceholder(),
+        seqio.preprocessors.append_eos_after_trim
+    ],
+    output_features={
+        'inputs': seqio.Feature(
+            vocabulary=seqio.SentencePieceVocabulary(DEFAULT_VOCAB_FILE, extra_ids=DEFAULT_EXTRA_IDS),
+            add_eos=True,
+            required=True
+        )
+    },
+)
+
 # NOTE: 데이터에 문제가 있어 중단
 # seqio.TaskRegistry.add(
 #     name='naver_ner',

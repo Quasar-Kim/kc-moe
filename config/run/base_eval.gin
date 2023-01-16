@@ -1,0 +1,11 @@
+import tasks
+
+include 'config/model/kc_moe_base.gin'
+include 't5x/contrib/moe/configs/runs/eval.gin'
+
+CHECKPOINT_PATH = %gin.REQUIRED
+MIXTURE_OR_TASK_NAME = %gin.REQUIRED
+NUM_MODEL_PARTITIONS = 1
+EVAL_OUTPUT_DIR = "/tmp/eval"
+DROPOUT_RATE = 0.0
+BATCH_SIZE = 64

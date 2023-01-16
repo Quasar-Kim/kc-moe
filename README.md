@@ -27,9 +27,9 @@
 - 두개를 모아야 함: model, task => run
 - 오버라이딩 해야 할 설정:
   * TRAIN_STEPS
+  * INITIAL_CEHCKPOINT_PATH(finetuning/계속하기 용)
   * MODEL_DIR
   * BATCH_SIZE
-  * INITIAL_CEHCKPOINT_PATH(finetuning 용)
 - 오버라이딩 할 수도 있는 설정: NUM_MODEL_PARTITIONS
 
 예시 참조하시오

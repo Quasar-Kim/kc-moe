@@ -2,5 +2,5 @@ include 'config/model/kc_moe_base.gin'
 include 'config/task/kcbert_cleaned.gin'
 
 TRAIN_STEPS = 1_000_000
-MODEL_DIR = 'gs://kc-moe-eu/t5x/2-kc-moe-base'
+MODEL_DIR = 'gs://kc-moe-eu/t5x/pretrain/2-kc-moe-base'
 BATCH_SIZE = 256

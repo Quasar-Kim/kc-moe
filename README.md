@@ -30,6 +30,7 @@
   * INITIAL_CEHCKPOINT_PATH(finetuning/계속하기 용)
   * MODEL_DIR
   * BATCH_SIZE
+  * NUM_MODEL_PARTITIONS
 - 오버라이딩 할 수도 있는 설정: NUM_MODEL_PARTITIONS
 
 예시 참조하시오

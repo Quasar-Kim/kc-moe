@@ -1,7 +1,6 @@
 from __gin__ import dynamic_registration
+import seqio
 
 include 'flaxformer/t5x/configs/moe/models/st_moe_xl.gin'
-
-NUM_MODEL_PARTITIONS = 4
 
 seqio.SentencePieceVocabulary.sentencepiece_model_file = 'gs://kc-moe/vocab/morpheme_aware_unigram_32k.100extra.model'

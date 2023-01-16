@@ -1,6 +1,0 @@
-include 't5x/configs/runs/eval.gin'
-include 't5x/examples/t5/t5_1_1/base.gin'
-include 'config/run/infer_default.gin'
-
-CHECKPOINT_PATH = %gin.REQUIRED
-MIXTURE_OR_TASK_NAME = 'korsts'

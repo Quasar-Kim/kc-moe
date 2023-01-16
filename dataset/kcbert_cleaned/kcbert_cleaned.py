@@ -21,7 +21,7 @@ class KcbertCleaned(GeneratorBasedBuilder):
         }
 
     def _generate_examples(self):
-        df = dd.read_parquet('gs://kc-moe/dataset/parquet/kcbert-cleaned', engine='fastparquet')
+        df = dd.read_parquet('gs://kds-258505083a16ad29d33a74d5c2dacc78743d11e7ade0fa5e527206d9/dataset/parquet/kcbert-cleaned', engine='fastparquet')
         for i, (_, row) in enumerate(df.iterrows()):
             example = row.to_dict()
             yield i, example

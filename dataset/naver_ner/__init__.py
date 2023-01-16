@@ -1,1 +1,0 @@
-from .naver_ner import NaverNer

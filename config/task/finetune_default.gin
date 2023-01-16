@@ -4,14 +4,16 @@ import seqio
 import tasks
 from t5x import utils
 
-include 't5x/configs/runs/finetune.gin'
+include 't5x/contrib/moe/configs/runs/finetune.gin'
 
-BATCH_SIZE = 256
-USE_CACHED_TASKS = False
+TRAIN_STEPS = %gin.REQUIRED
+BATCH_SIZE = %gin.REQUIRED
+MODEL_DIR = %gin.REQUIRED
 EVAL_PERIOD = %gin.REQUIRED
 CHECKPOINT_PERIOD = %gin.REQUIRED
-
-seqio.SentencePieceVocabulary.sentencepiece_model_file = 'gs://kc-moe-eu/vocab/morpheme_aware_unigram_32k.100extra.model'
+INITIAL_CHECKPOINT_PATH = %gin.REQUIRED
+DROPOUT_RATE = 0.0
+USE_CACHED_TASKS = False
 
 train_script.train:
   eval_period = %EVAL_PERIOD

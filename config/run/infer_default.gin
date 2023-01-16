@@ -1,5 +1,0 @@
-import seqio
-import tasks
-
-seqio.SentencePieceVocabulary.sentencepiece_model_file = 'gs://kc-moe-eu/vocab/morpheme_aware_unigram_32k.100extra.model'
-DROPOUT_RATE = 0.0

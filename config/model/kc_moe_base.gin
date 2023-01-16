@@ -2,7 +2,7 @@ from __gin__ import dynamic_registration
 import __main__ as train_script
 import seqio
 
-include 'flaxformer/t5x/configs/moe/models/st_moe_base.gin'
+include 'flaxformer/flaxformer/t5x/configs/moe/models/st_moe_base.gin'
 
 NUM_MODEL_PARTITIONS = 2
 

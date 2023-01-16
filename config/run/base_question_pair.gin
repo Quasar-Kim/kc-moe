@@ -1,0 +1,8 @@
+include 'config/model/kc_moe_base.gin'
+include 'config/task/question_pair.gin'
+
+TRAIN_STEPS = 1_000_150 # 150 steps
+INITIAL_CHECKPOINT_PATH = 'gs://kc-moe-eu/t5x/pretrain/2-kc-moe-base/checkpoint_1000000'
+MODEL_DIR = 'gs://kc-moe-eu/t5x/question_pair/kc-moe-base'
+BATCH_SIZE = 64
+NUM_MODEL_PARTITIONS = 1

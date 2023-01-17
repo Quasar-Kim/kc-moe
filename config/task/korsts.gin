@@ -2,5 +2,5 @@ include 'config/task/finetune_default.gin'
 
 MIXTURE_OR_TASK_NAME = 'korsts'
 TASK_FEATURE_LENGTHS = {"inputs": 512, "targets": 64}
-EVAL_PERIOD = 2
-CHECKPOINT_PERIOD = 8
+EVAL_PERIOD = 10
+CHECKPOINT_PERIOD = 20

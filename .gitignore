@@ -3,4 +3,3 @@ __pycache__/
 *.out
 *.code-workspace
 *.test.*
-flaxformer/

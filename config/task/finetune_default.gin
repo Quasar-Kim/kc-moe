@@ -1,0 +1,27 @@
+from __gin__ import dynamic_registration
+import __main__ as train_script
+import seqio
+import tasks
+from t5x import utils
+
+include 't5x/contrib/moe/configs/runs/finetune.gin'
+
+TRAIN_STEPS = %gin.REQUIRED
+BATCH_SIZE = %gin.REQUIRED
+MODEL_DIR = %gin.REQUIRED
+EVAL_PERIOD = %gin.REQUIRED
+CHECKPOINT_PERIOD = %gin.REQUIRED
+INITIAL_CHECKPOINT_PATH = %gin.REQUIRED
+DROPOUT_RATE = 0.0
+USE_CACHED_TASKS = False
+
+train_script.train:
+  eval_period = %EVAL_PERIOD
+  random_seed = 42
+  use_hardware_rng = False
+
+seqio.Evaluator:
+  logger_cls = [@seqio.PyLoggingLogger, @seqio.TensorBoardLogger]
+
+utils.SaveCheckpointConfig:
+  period = %CHECKPOINT_PERIOD

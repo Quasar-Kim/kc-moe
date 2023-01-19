@@ -1,0 +1,6 @@
+include 'config/model/kc_moe_xl.gin'
+include 'config/task/kcbert_cleaned.gin'
+
+TRAIN_STEPS = 1_000_000
+MODEL_DIR = 'gs://kc-moe-eu/t5x/kc-moe-xl'
+BATCH_SIZE = 32

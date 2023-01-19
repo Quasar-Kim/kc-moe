@@ -6,8 +6,8 @@ from functools import partial
 from t5.data import preprocessors as t5_preprocessor
 from t5.evaluation import metrics as t5_metrics
 
-TFDS_DATA_DIR = 'gs://kc-moe/dataset/tfds'
-DEFAULT_VOCAB_FILE = 'gs://kc-moe/vocab/morpheme_aware_unigram_32k.model'
+TFDS_DATA_DIR = 'gs://kc-moe-eu/dataset/tfds'
+DEFAULT_VOCAB_FILE = 'gs://kc-moe-eu/vocab/morpheme_aware_unigram_32k.model'
 DEFAULT_EXTRA_IDS = 100
 DEFAULT_OUTPUT_FEATURES = {
     'inputs': seqio.Feature(
@@ -242,6 +242,32 @@ seqio.TaskRegistry.add(
             average='macro'
         )
     ]
+)
+
+seqio.TaskRegistry.add(
+    name='hate_speech_test',
+    source=get_tfds_source(
+        'hate_speech_test:1.0.0',
+        splits=['test']
+    ),
+    preprocessors=[
+        partial(
+            preprocessor.to_prompt,
+            prefix='혐오댓글',
+            text_columns=['text'],
+            target_column=None
+        ),
+        seqio.preprocessors.tokenize,
+        seqio.CacheDatasetPlaceholder(),
+        seqio.preprocessors.append_eos_after_trim
+    ],
+    output_features={
+        'inputs': seqio.Feature(
+            vocabulary=seqio.SentencePieceVocabulary(DEFAULT_VOCAB_FILE, extra_ids=DEFAULT_EXTRA_IDS),
+            add_eos=True,
+            required=True
+        )
+    },
 )
 
 # NOTE: 데이터에 문제가 있어 중단

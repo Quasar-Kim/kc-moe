@@ -1,0 +1,3 @@
+[submodule "flaxformer"]
+	path = flaxformer
+	url = https://github.com/google/flaxformer
